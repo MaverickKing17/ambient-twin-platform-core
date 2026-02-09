@@ -1,0 +1,7 @@
+{
+  "name": "Ambient Twin Enterprise",
+  "description": "A high-fidelity HVAC Financial Success Engine for the Toronto/GTA market featuring real-time 401/DVP burn tracking and digital twin diagnostics.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
