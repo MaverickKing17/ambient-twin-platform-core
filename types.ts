@@ -11,11 +11,11 @@ export interface DigitalTwin {
   id: string;
   client_name: string;
   address: string;
-  city: string; // Mississauga, North York, Vaughan, Brampton, etc.
-  system_breathing: number; // Static Pressure
-  heating_power: number; // Delta-T
+  city: string;
+  system_breathing: number;
+  heating_power: number;
   system_motors: 'Inducer' | 'Blower' | 'Optimal';
-  live_vital_signs: string; // Telemetry summary
+  live_vital_signs: string;
   health_score: number;
   grade: HealthGrade;
   rebate_eligible: boolean;
@@ -24,11 +24,10 @@ export interface DigitalTwin {
   alert_type?: 'Tripped Breaker' | 'Dirty Filter' | 'None';
 }
 
-export interface PartnerConfig {
-  id: string;
-  name: string;
-  accent_color: string;
-  logo_text: string;
+export interface BrandConfig {
+  companyName: string;
+  primaryColor: string;
+  logoUrl: string | null;
 }
 
 export interface TriageAlert {

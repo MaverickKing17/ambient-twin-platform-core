@@ -4,22 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ambient Twin Enterprise</title>
+  <title>Home System Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            mono: ['"JetBrains Mono"', 'monospace'],
-            sans: ['Inter', 'sans-serif'],
+            mono: ['"Consolas"', 'monospace'],
+            sans: ['"Segoe UI"', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
           },
           colors: {
-            // Sophisticated Enterprise Midnight Navy
-            obsidian: '#0f172a', 
-            card: '#1e293b',
-            border: '#334155',
+            // Slightly lighter slate for a cleaner enterprise look
+            obsidian: '#334155', 
+            card: '#475569',
+            border: '#64748b',
             'mckinnon-red': '#e11d48',
             'thermex-blue': '#0ea5e9',
           },
@@ -72,16 +72,16 @@
     }
     
     .glass {
-      background: rgba(30, 41, 59, 0.6);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.2);
+      background: rgba(71, 85, 105, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.15);
     }
     
     .glass:hover {
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(71, 85, 105, 0.8);
     }
 
     .custom-scrollbar::-webkit-scrollbar {
@@ -91,11 +91,10 @@
       background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #94a3b8;
       border-radius: 10px;
     }
 
-    /* Professional scanline effect for real-time feel */
     .scanline {
       width: 100%;
       height: 100px;
@@ -104,7 +103,7 @@
       position: absolute;
       top: -100px;
       left: 0;
-      animation: scan 8s linear infinite;
+      animation: scan 10s linear infinite;
       pointer-events: none;
     }
   </style>
@@ -121,7 +120,7 @@
 }
 </script>
 </head>
-<body class="bg-obsidian text-slate-100 font-sans selection:bg-mckinnon-red/30 antialiased">
+<body class="bg-obsidian text-slate-50 font-sans selection:bg-mckinnon-red/30 antialiased">
   <div id="root"></div>
   <script type="module" src="index.tsx"></script>
 </body>

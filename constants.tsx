@@ -1,20 +1,5 @@
 
-import { DigitalTwin, HealthGrade, PartnerConfig } from './types';
-
-export const PARTNERS: Record<string, PartnerConfig> = {
-  'mckinnon': {
-    id: 'mckinnon',
-    name: 'McKinnon Heating & Cooling',
-    accent_color: '#e11d48', // McKinnon Red
-    logo_text: 'McKinnon Red'
-  },
-  'thermex': {
-    id: 'thermex',
-    name: 'Thermex Home Comfort',
-    accent_color: '#0ea5e9', // Thermex Blue
-    logo_text: 'Thermex Blue'
-  }
-};
+import { DigitalTwin, HealthGrade } from './types';
 
 export const INITIAL_MOCK_DATA: DigitalTwin[] = [
   {
