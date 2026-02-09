@@ -6,17 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home System Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Segoe UI is a system font on Windows; for other platforms we use the system-ui stack to maintain that professional feel -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            mono: ['"Consolas"', 'monospace'],
-            sans: ['"Segoe UI"', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+            // Modern Microsoft developer/technical font stack
+            mono: ['"Cascadia Code"', '"Consolas"', '"Courier New"', 'monospace'],
+            // Modern Microsoft UI font stack
+            sans: ['"Segoe UI"', '"Segoe UI Web (West European)"', '"Segoe UI"', '-apple-system', 'BlinkMacSystemFont', 'Roboto', '"Helvetica Neue"', 'sans-serif'],
           },
           colors: {
-            // Slightly lighter slate for a cleaner enterprise look
             obsidian: '#334155', 
             card: '#475569',
             border: '#64748b',
@@ -48,6 +49,30 @@
     }
   </script>
   <style>
+    /* Force Microsoft Segoe UI stack globally for peak professionalism */
+    body {
+      font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em; /* Slight tightening for that crisp Microsoft UI feel */
+    }
+
+    /* Professional scrollbars ala Windows 11 style */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; color: black !important; }

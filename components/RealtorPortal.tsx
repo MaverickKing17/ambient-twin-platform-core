@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Search, FileCheck, ShieldCheck, MapPin, Printer, ArrowUpRight, Activity, X, FileText, ExternalLink, Thermometer, Wind, Cpu, Heart, ChevronRight, Gavel, BarChart3, Database, TrendingUp, Info, Loader2 } from 'lucide-react';
 import { INITIAL_MOCK_DATA } from '../constants';
-import { DigitalTwin } from '../types';
+import { DigitalTwin, HealthGrade } from '../types';
 import { Link } from 'react-router-dom';
 import { getTorontoMarketData } from '../services/geminiService';
 
@@ -50,6 +50,27 @@ export const RealtorPortal: React.FC = () => {
     const matchesFavorite = showFavoritesOnly ? favorites.includes(twin.id) : true;
     return matchesSearch && matchesFavorite;
   });
+
+  const getHealthIndicatorStyles = (grade: HealthGrade) => {
+    switch (grade) {
+      case HealthGrade.A:
+        return 'border-emerald-500 text-emerald-400 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.3)] ring-emerald-500/20';
+      case HealthGrade.B:
+      case HealthGrade.C:
+        return 'border-amber-500 text-amber-400 bg-amber-500/10 shadow-[0_0_20px_rgba(245,158,11,0.3)] ring-amber-500/20';
+      case HealthGrade.D:
+      case HealthGrade.F:
+        return 'border-red-500 text-red-400 bg-red-500/10 shadow-[0_0_20px_rgba(239,68,68,0.3)] ring-red-500/20';
+      default:
+        return 'border-slate-500 text-slate-400 bg-slate-500/10 ring-slate-500/20';
+    }
+  };
+
+  const getStatusLabel = (grade: HealthGrade) => {
+    if (grade === HealthGrade.A) return 'EXCELLENT';
+    if (grade === HealthGrade.B || grade === HealthGrade.C) return 'MONITOR';
+    return 'CRITICAL';
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 animate-in fade-in duration-1000">
@@ -131,7 +152,6 @@ export const RealtorPortal: React.FC = () => {
               placeholder="Type street name or house number..."
               className="w-full h-24 bg-black/10 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] pl-20 pr-10 text-2xl font-bold text-white focus:outline-none focus:ring-4 focus:ring-thermex-blue/10 focus:border-thermex-blue transition-all placeholder:text-slate-500"
               value={search}
-              // Fixed: Using 'setSearch' instead of 'setSearchTerm' as defined in line 12
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
@@ -153,9 +173,13 @@ export const RealtorPortal: React.FC = () => {
               <div className="scanline opacity-10" />
               
               <div className="flex justify-between items-start mb-10 relative z-10">
-                <div className={`w-20 h-20 rounded-[1.5rem] flex flex-col items-center justify-center border-2 shadow-lg transition-all duration-300 group-hover:scale-105 ${twin.health_score > 90 ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' : twin.health_score > 70 ? 'bg-amber-500/10 border-amber-500 text-amber-400' : 'bg-red-500/10 border-red-500 text-red-400'}`}>
-                  <span className="text-[10px] font-bold uppercase tracking-widest opacity-60 leading-none mb-1">Grade</span>
-                  <span className="text-4xl font-black leading-none">{twin.grade}</span>
+                {/* Visual Health Indicator (Colored Ring & Badge) */}
+                <div className={`w-24 h-24 rounded-3xl flex flex-col items-center justify-center border-4 ring-8 ring-offset-0 transition-all duration-500 group-hover:scale-110 ${getHealthIndicatorStyles(twin.grade)}`}>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-80 leading-none mb-1">Grade</span>
+                  <span className="text-5xl font-black leading-none drop-shadow-md">{twin.grade}</span>
+                  <div className="absolute -bottom-2 px-3 py-1 bg-black/80 rounded-full border border-white/10 text-[8px] font-black tracking-widest">
+                    {getStatusLabel(twin.grade)}
+                  </div>
                 </div>
                 
                 <div className="flex flex-col items-end gap-3">
@@ -174,8 +198,8 @@ export const RealtorPortal: React.FC = () => {
               
               <div className="relative z-10 mb-10">
                 <div className="flex items-center gap-2 mb-2">
-                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Active Data Feed</span>
+                   <div className={`w-2 h-2 rounded-full animate-pulse ${twin.grade === HealthGrade.A ? 'bg-emerald-500' : twin.grade === HealthGrade.D || twin.grade === HealthGrade.F ? 'bg-red-500' : 'bg-amber-500'}`} />
+                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Digital Twin Sync</span>
                 </div>
                 <h4 className="text-3xl font-black text-white tracking-tighter uppercase mb-2 group-hover:text-emerald-400 transition-colors">{twin.address}</h4>
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-300 uppercase tracking-[0.2em]">
@@ -188,12 +212,12 @@ export const RealtorPortal: React.FC = () => {
               <div className="relative z-10 space-y-8 mb-12 bg-black/10 rounded-[2.5rem] p-8 border border-white/5">
                 <div className="space-y-4">
                   <div className="flex justify-between items-end">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">How Well It Runs</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">HVAC PERFORMANCE</span>
                     <span className={`text-sm font-bold font-mono ${twin.health_score > 70 ? 'text-emerald-400' : 'text-mckinnon-red'}`}>{twin.health_score}%</span>
                   </div>
                   <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden border border-white/10 p-0.5">
                     <div 
-                      className={`h-full transition-all duration-1000 ease-in-out rounded-full ${twin.health_score > 90 ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : twin.health_score > 70 ? 'bg-amber-500' : 'bg-mckinnon-red'}`}
+                      className={`h-full transition-all duration-1000 ease-in-out rounded-full ${twin.grade === HealthGrade.A ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : twin.grade === HealthGrade.B || twin.grade === HealthGrade.C ? 'bg-amber-500 shadow-[0_0_10px_#f59e0b]' : 'bg-red-500 shadow-[0_0_10px_#ef4444]'}`}
                       style={{ width: `${twin.health_score}%` }}
                     />
                   </div>
@@ -205,12 +229,14 @@ export const RealtorPortal: React.FC = () => {
                     <div className="text-xs font-bold text-white font-mono">{twin.system_breathing}</div>
                   </div>
                   <div className="space-y-1 text-center">
-                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Heat Strength</span>
+                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Heat Delta</span>
                     <div className="text-xs font-bold text-white font-mono">{twin.heating_power}°</div>
                   </div>
                   <div className="space-y-1 text-right">
-                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Unit Status</span>
-                    <div className="text-xs font-bold text-emerald-400 uppercase tracking-tighter">Good</div>
+                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Safety Status</span>
+                    <div className={`text-xs font-bold uppercase tracking-tighter ${twin.grade === HealthGrade.A ? 'text-emerald-400' : twin.grade === HealthGrade.B || twin.grade === HealthGrade.C ? 'text-amber-400' : 'text-red-400'}`}>
+                      {getStatusLabel(twin.grade)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -222,7 +248,7 @@ export const RealtorPortal: React.FC = () => {
                   className="group/btn h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white hover:bg-white/10 transition-all"
                 >
                   <Activity size={18} className="text-thermex-blue" />
-                  Check Data
+                  Telemetry
                 </button>
                 <Link 
                   to={`/certificate/${twin.id}`}
@@ -258,9 +284,9 @@ export const RealtorPortal: React.FC = () => {
             </button>
 
             <div className="flex flex-col lg:flex-row lg:items-center gap-10 mb-16 relative z-10">
-              <div className={`w-40 h-40 shrink-0 rounded-[2.5rem] flex flex-col items-center justify-center border-4 shadow-xl ${selectedReport.health_score > 80 ? 'border-emerald-500 bg-emerald-500/10' : 'border-amber-500 bg-amber-500/10'}`}>
+              <div className={`w-40 h-40 shrink-0 rounded-[2.5rem] flex flex-col items-center justify-center border-4 shadow-xl ${getHealthIndicatorStyles(selectedReport.grade)}`}>
                 <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400 leading-none mb-2">Grade</span>
-                <span className={`text-7xl font-black ${selectedReport.health_score > 80 ? 'text-emerald-400' : 'text-amber-400'}`}>{selectedReport.grade}</span>
+                <span className="text-7xl font-black">{selectedReport.grade}</span>
               </div>
               <div className="flex-1">
                 <h3 className="text-5xl font-black text-white uppercase tracking-tighter mb-3 leading-none">{selectedReport.address}</h3>
@@ -295,7 +321,7 @@ export const RealtorPortal: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-12 rounded-[3.5rem] bg-emerald-500/5 border border-emerald-500/10 mb-16 relative z-10">
+            <div className={`p-12 rounded-[3.5rem] border mb-16 relative z-10 ${selectedReport.health_score > 80 ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-amber-500/5 border-amber-500/10'}`}>
               <p className="text-lg text-slate-100 font-bold leading-relaxed italic border-l-4 border-emerald-500/30 pl-8">
                 "This house system is working at {selectedReport.health_score}% power. Everything looks great and it should work well for a long time."
               </p>
