@@ -56,6 +56,11 @@
       animation: shake 0.2s cubic-bezier(.36,.07,.19,.97) both infinite;
     }
     
+    @keyframes scan {
+      0% { top: -10%; }
+      100% { top: 110%; }
+    }
+    
     .glass {
       background: rgba(30, 41, 59, 0.6);
       backdrop-filter: blur(16px);
@@ -91,11 +96,6 @@
       left: 0;
       animation: scan 8s linear infinite;
       pointer-events: none;
-    }
-
-    @keyframes scan {
-      0% { top: -100px; }
-      100% { top: 100%; }
     }
   </style>
 <script type="importmap">
