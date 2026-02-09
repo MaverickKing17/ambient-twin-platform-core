@@ -26,6 +26,13 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
 
   return (
     <div className="relative w-full max-w-[340px] aspect-[4/5] group select-none">
+      {/* Professional Scanline Animation */}
+      <div className="scanline opacity-30" />
+      
+      {/* Subtle Digital Interlace Pattern (CRT Effect) */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-20" 
+           style={{ backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(255, 255, 255, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))', backgroundSize: '100% 2px, 3px 100%' }} />
+
       {/* Tooltip Layer */}
       {hoveredMotor === 'inducer' && isInducerFocus && (
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 z-50 animate-in fade-in zoom-in duration-200 pointer-events-none">
@@ -51,7 +58,7 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
         </div>
       )}
 
-      <svg viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.02)] transition-all duration-700">
+      <svg viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.02)] transition-all duration-700 relative z-10">
         <defs>
           <linearGradient id="chassisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e293b" stopOpacity="0.4" />
@@ -139,9 +146,9 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
         <div className="font-mono text-xs font-bold text-white leading-none mt-1">{twin.heating_power}° <span className="text-[9px] text-slate-500 font-normal">ΔT</span></div>
       </div>
 
-      {/* Global Scanning Overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl opacity-10">
-        <div className="w-full h-2 bg-gradient-to-r from-transparent via-white to-transparent absolute top-0 animate-[scan_6s_linear_infinite]" />
+      {/* Visual Depth Overlay */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl opacity-5">
+        <div className="w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent absolute top-0 animate-[scan_10s_linear_infinite]" />
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ export const Dashboard: React.FC<{ partner: PartnerConfig }> = ({ partner }) => 
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Zone: GTA-ENT-01</span>
           </div>
           <h1 className="text-3xl font-black tracking-tighter text-white uppercase">GTA Intelligence Hub</h1>
-          <p className="text-slate-400 mt-1 text-sm">Institutional asset oversight for the Greater Toronto Area.</p>
+          <p className="text-slate-400 mt-1 text-sm font-medium">Institutional asset oversight for the Greater Toronto Area.</p>
         </div>
         <div className="flex items-center gap-4">
           <CostClock />
@@ -53,39 +53,39 @@ export const Dashboard: React.FC<{ partner: PartnerConfig }> = ({ partner }) => 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full lg:min-h-[75vh]">
         
         {/* Col 1: Asset Ledger */}
-        <div className="lg:col-span-3 flex flex-col glass rounded-2xl overflow-hidden relative border border-white/5">
+        <div className="lg:col-span-3 flex flex-col glass rounded-2xl overflow-hidden relative border border-white/5 shadow-2xl">
           <div className="scanline" />
-          <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/2">
-            <h3 className="font-bold flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-400">
-              <Activity className="text-emerald-500 w-3 h-3" />
+          <div className="p-5 border-b border-white/5 flex items-center justify-between bg-white/5">
+            <h3 className="font-black flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-white">
+              <Activity className="text-emerald-500 w-4 h-4" />
               Asset Ledger
             </h3>
             <div className="relative">
-              <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-500 w-3 h-3" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-3.5 h-3.5" />
               <input 
                 type="text" 
                 placeholder="Find Twin..." 
-                className="bg-black/40 border border-white/10 rounded-lg pl-7 pr-2 py-1 text-[10px] font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500 w-32 transition-all"
+                className="bg-black/60 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 w-36 transition-all placeholder:text-slate-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
             {filteredData.map(twin => (
               <button 
                 key={twin.id}
                 onClick={() => setSelectedTwin(twin)}
-                className={`w-full text-left p-3 rounded-xl transition-all border ${selectedTwin.id === twin.id ? 'bg-white/10 border-white/20 shadow-xl' : 'hover:bg-white/5 border-transparent opacity-60 hover:opacity-100'}`}
+                className={`w-full text-left p-4 rounded-2xl transition-all border ${selectedTwin.id === twin.id ? 'bg-white/15 border-white/30 shadow-2xl ring-1 ring-white/10' : 'hover:bg-white/5 border-transparent opacity-70 hover:opacity-100'}`}
               >
-                <div className="flex justify-between items-start mb-1">
-                  <span className="font-bold text-xs text-white">{twin.client_name}</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded font-black ${twin.health_score > 80 ? 'bg-emerald-500/20 text-emerald-400' : twin.health_score > 60 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                <div className="flex justify-between items-start mb-1.5">
+                  <span className="font-black text-sm text-white uppercase tracking-tight">{twin.client_name}</span>
+                  <span className={`text-[11px] px-2 py-0.5 rounded-lg font-black shadow-inner ${twin.health_score > 80 ? 'bg-emerald-500/20 text-emerald-400' : twin.health_score > 60 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
                     {twin.health_score}%
                   </span>
                 </div>
-                <div className="flex items-center gap-1 text-[10px] text-slate-500 font-medium italic">
-                  <MapPin size={8} />
+                <div className="flex items-center gap-1.5 text-[11px] text-slate-300 font-bold uppercase tracking-wide">
+                  <MapPin size={10} className="text-red-500" />
                   {twin.city}
                 </div>
               </button>
@@ -102,7 +102,7 @@ export const Dashboard: React.FC<{ partner: PartnerConfig }> = ({ partner }) => 
                 <span className="text-[9px] font-black bg-white/10 px-2 py-0.5 rounded tracking-widest text-slate-300 uppercase">Twin ID: {selectedTwin.id}</span>
               </div>
               <h2 className="text-3xl font-black text-white tracking-tighter uppercase">{selectedTwin.client_name}</h2>
-              <p className="text-slate-500 flex items-center gap-1.5 text-xs font-semibold mt-1">
+              <p className="text-slate-400 flex items-center gap-1.5 text-xs font-bold mt-1 uppercase tracking-wider">
                 <MapPin size={12} className="text-red-500" /> {selectedTwin.address}, {selectedTwin.city}, ON
               </p>
             </div>
@@ -153,7 +153,7 @@ export const Dashboard: React.FC<{ partner: PartnerConfig }> = ({ partner }) => 
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-300">Analysis Required</p>
-                    <p className="text-[10px] text-slate-500 mt-1 leading-relaxed">System requires Gemini interrogation to determine the optimal remote resolution path.</p>
+                    <p className="text-[10px] text-slate-500 mt-1 leading-relaxed font-medium">System requires Gemini interrogation to determine the optimal remote resolution path.</p>
                   </div>
                   <button 
                     onClick={handleTriage}
@@ -185,8 +185,8 @@ export const Dashboard: React.FC<{ partner: PartnerConfig }> = ({ partner }) => 
 
                   <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                      <span className="text-[9px] text-slate-500 uppercase font-black tracking-widest">OpEx Savings</span>
-                     <div className="text-lg font-bold text-amber-500 mt-1 tracking-tighter">{aiAnalysis.canRemoteResolve ? '+$250.00 RECOVERED' : 'TRUCK DISPATCH REQ'}</div>
-                     <p className="text-[10px] text-slate-500 mt-1">Calculated via 401/DVP Burn Formula.</p>
+                     <div className="text-lg font-bold text-amber-500 mt-1 tracking-tighter font-mono">{aiAnalysis.canRemoteResolve ? '+$250.00 RECOVERED' : 'TRUCK DISPATCH REQ'}</div>
+                     <p className="text-[10px] text-slate-500 mt-1 font-medium">Calculated via 401/DVP Burn Formula.</p>
                   </div>
                 </div>
               )}
