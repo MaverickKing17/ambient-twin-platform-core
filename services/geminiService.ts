@@ -1,10 +1,13 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// We initialize the client inside the functions to ensure process.env.API_KEY 
+// is accessed only when called, preventing top-level module load crashes.
+const getClient = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export async function triageDiagnostic(telemetry: string) {
   try {
+    const ai = getClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Analyze this HVAC telemetry: "${telemetry}". Determine if it indicates a "Tripped Breaker" or "Dirty Filter". Output as JSON.`,
@@ -24,12 +27,13 @@ export async function triageDiagnostic(telemetry: string) {
     return JSON.parse(response.text);
   } catch (error) {
     console.error("Gemini triage error:", error);
-    return null;
+    return { issue: 'None', canRemoteResolve: false, simpleExplanation: 'System scanning unavailable.' };
   }
 }
 
 export async function getTorontoMarketData() {
   try {
+    const ai = getClient();
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: "What is the current average home price and average days on market for the Toronto real estate market as of the most recent data? Provide a very concise summary with the two main numbers and one trend sentence.",
@@ -51,6 +55,23 @@ export async function getTorontoMarketData() {
   } catch (error) {
     console.error("Gemini market data error:", error);
     return null;
+  }
+}
+
+export async function getTorontoTrafficData() {
+  try {
+    const ai = getClient();
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: "What are the current traffic conditions (average speeds or major delays) on Highway 401 and the DVP in Toronto right now? Provide a very short summary (e.g. '401 E: 95km/h, DVP S: 15 min delay').",
+      config: {
+        tools: [{googleSearch: {}}],
+      },
+    });
+    return response.text || "Traffic data unavailable.";
+  } catch (error) {
+    console.error("Gemini traffic data error:", error);
+    return "Traffic sync delayed.";
   }
 }
 
