@@ -4,6 +4,8 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Dashboard } from './components/Dashboard';
 import { AccountantReveal } from './components/AccountantReveal';
 import { RealtorCertificate } from './components/RealtorCertificate';
+import { RealtorPortal } from './components/RealtorPortal';
+import { OperationsCommand } from './components/OperationsCommand';
 import { PARTNERS } from './constants';
 import { PartnerConfig } from './types';
 import { Navbar } from './components/Navbar';
@@ -26,6 +28,8 @@ const App: React.FC = () => {
         <main className="flex-1 p-4 lg:p-8 overflow-x-hidden">
           <Routes>
             <Route path="/" element={<Dashboard partner={partner} />} />
+            <Route path="/operations" element={<OperationsCommand />} />
+            <Route path="/realtors" element={<RealtorPortal />} />
             <Route path="/accountant" element={<AccountantReveal partner={partner} />} />
             <Route path="/certificate/:id" element={<RealtorCertificate />} />
           </Routes>

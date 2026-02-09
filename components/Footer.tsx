@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, ShieldCheck, Globe, Scale, BookOpen, ScrollText, Zap, ShieldAlert, Award, FileLock2 } from 'lucide-react';
+import { MapPin, ShieldCheck, Globe, Scale, BookOpen, ScrollText, Zap, ShieldAlert, Award, FileLock2, Lock } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -46,29 +46,31 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Column 2: Ontario Regulatory Compliance */}
+        {/* Column 2: Security & Compliance Matrix */}
         <div>
           <h4 className="text-[12px] font-black text-white uppercase tracking-[0.3em] mb-12 flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-thermex-blue animate-pulse" />
-            Ontario Regulatory
+            <Lock size={14} className="text-emerald-500" />
+            Fortress Architecture
           </h4>
-          <div className="space-y-8">
-            <div className="group cursor-pointer border-l-2 border-transparent hover:border-thermex-blue pl-4 transition-all">
-              <p className="text-sm font-black text-white uppercase tracking-tight">TSSA Compliance Framework</p>
-              <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">Fuel Safety & Pressure Vessels Act (ON)</p>
+          <div className="space-y-6">
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 mb-2">
+                <ShieldCheck size={18} className="text-emerald-500" />
+                <span className="text-xs font-black text-white uppercase tracking-widest">SOC 2 Type II</span>
+              </div>
+              <p className="text-[9px] text-slate-500 font-bold leading-tight uppercase tracking-wider">Third-party audited infrastructure for enterprise-grade data sovereignty.</p>
             </div>
-            <div className="group cursor-pointer border-l-2 border-transparent hover:border-thermex-blue pl-4 transition-all">
-              <p className="text-sm font-black text-white uppercase tracking-tight">Ontario Consumer Protection</p>
-              <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">CPA 2002 Door-to-Door Sales Logic</p>
-            </div>
-            <div className="group cursor-pointer border-l-2 border-transparent hover:border-thermex-blue pl-4 transition-all">
-              <p className="text-sm font-black text-white uppercase tracking-tight">Municipal Licensing (GTA)</p>
-              <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">GTA Integrated Service Permitting</p>
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 mb-2">
+                <ShieldCheck size={18} className="text-blue-500" />
+                <span className="text-xs font-black text-white uppercase tracking-widest">ISO 27001</span>
+              </div>
+              <p className="text-[9px] text-slate-500 font-bold leading-tight uppercase tracking-wider">Global information security standards for institutional asset management.</p>
             </div>
           </div>
         </div>
 
-        {/* Column 3: Legal Infrastructure Matrix */}
+        {/* Column 3: Ontario Regulatory & Data */}
         <div>
           <h4 className="text-[12px] font-black text-white uppercase tracking-[0.3em] mb-12 flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
@@ -77,11 +79,7 @@ export const Footer: React.FC = () => {
           <ul className="space-y-6">
             <li className="flex items-center gap-3 text-sm font-bold text-white hover:text-emerald-400 transition-colors cursor-pointer group">
               <ShieldCheck size={18} className="text-emerald-500" />
-              Privacy Policy (PIPEDA/GDPR-C)
-            </li>
-            <li className="flex items-center gap-3 text-sm font-bold text-white hover:text-white transition-colors cursor-pointer group">
-              <BookOpen size={18} className="text-slate-400 group-hover:text-white transition-colors" />
-              Terms of Professional Service
+              Privacy Policy (PIPEDA)
             </li>
             <li className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8">
               SaaS Master Service Agreement
