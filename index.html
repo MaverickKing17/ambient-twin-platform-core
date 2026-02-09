@@ -16,9 +16,10 @@
             sans: ['Inter', 'sans-serif'],
           },
           colors: {
-            obsidian: '#020203',
-            card: '#09090b',
-            border: '#1f1f23',
+            // Updated to a sophisticated Enterprise Midnight Navy
+            obsidian: '#0f172a', 
+            card: '#1e293b',
+            border: '#334155',
             'mckinnon-red': '#e11d48',
             'thermex-blue': '#0ea5e9',
           }
@@ -46,10 +47,22 @@
     }
     
     .glass {
-      background: rgba(9, 9, 11, 0.7);
+      background: rgba(30, 41, 59, 0.7);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid #1f1f23;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Custom scrollbar for better C-Suite aesthetics */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 10px;
     }
   </style>
 <script type="importmap">
@@ -67,5 +80,6 @@
 </head>
 <body class="bg-obsidian text-slate-100 font-sans selection:bg-mckinnon-red/30">
   <div id="root"></div>
+  <script type="module" src="index.tsx"></script>
 </body>
 </html>
