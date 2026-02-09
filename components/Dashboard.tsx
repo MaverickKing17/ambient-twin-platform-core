@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Activity, AlertCircle, FileCheck, DollarSign, ShieldCheck, Zap, BrainCircuit, Loader2, CheckCircle2 } from 'lucide-react';
+import { Search, MapPin, Activity, AlertCircle, FileCheck, DollarSign, ShieldCheck, Zap, BrainCircuit, Loader2, CheckCircle2, Contact } from 'lucide-react';
 import { CostClock } from './CostClock';
 import { FurnaceWireframe } from './FurnaceWireframe';
 import { INITIAL_MOCK_DATA } from '../constants';
@@ -38,6 +38,11 @@ export const Dashboard: React.FC<{ brand: BrandConfig }> = ({ brand }) => {
       setIsFixed(true);
       setAiAnalysis(prev => ({ ...prev, canRemoteResolve: false, issue: 'RESOLVED', simpleExplanation: 'Remote signal reset. Unit status is back to nominal.' }));
     }, 2500);
+  };
+
+  const openCRMEntry = (e: React.MouseEvent, twin: DigitalTwin) => {
+    e.stopPropagation();
+    alert(`Opening CRM Entry for:\nName: ${twin.client_name}\nID: ${twin.id}\nStatus: ${twin.health_score}% Healthy`);
   };
 
   useEffect(() => {
@@ -97,7 +102,16 @@ export const Dashboard: React.FC<{ brand: BrandConfig }> = ({ brand }) => {
                 className={`w-full text-left p-4 rounded-xl transition-all border ${selectedTwin.id === twin.id ? 'bg-white/10 border-white/20 shadow-md' : 'hover:bg-white/5 border-transparent opacity-80 hover:opacity-100'}`}
               >
                 <div className="flex justify-between items-start mb-1.5">
-                  <span className="font-bold text-sm text-white uppercase tracking-tight">{twin.client_name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-sm text-white uppercase tracking-tight">{twin.client_name}</span>
+                    <button 
+                      onClick={(e) => openCRMEntry(e, twin)}
+                      className="p-1 rounded-md hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+                      title="View CRM Record"
+                    >
+                      <Contact size={14} />
+                    </button>
+                  </div>
                   <span className={`text-[11px] px-2 py-0.5 rounded-lg font-bold ${twin.health_score > 80 ? 'bg-emerald-500/20 text-emerald-400' : twin.health_score > 60 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
                     {twin.health_score}%
                   </span>
