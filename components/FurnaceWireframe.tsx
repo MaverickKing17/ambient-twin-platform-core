@@ -1,8 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { DigitalTwin } from '../types';
+import { AlertTriangle, Info } from 'lucide-react';
 
 export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
+  const [hoveredMotor, setHoveredMotor] = useState<'inducer' | 'blower' | null>(null);
+
   const isOptimal = twin.system_motors === 'Optimal';
   const isInducerFocus = twin.system_motors === 'Inducer';
   const isBlowerFocus = twin.system_motors === 'Blower';
@@ -23,6 +26,31 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
 
   return (
     <div className="relative w-full max-w-[340px] aspect-[4/5] group select-none">
+      {/* Tooltip Layer */}
+      {hoveredMotor === 'inducer' && isInducerFocus && (
+        <div className="absolute top-[10%] left-1/2 -translate-x-1/2 z-50 animate-in fade-in zoom-in duration-200 pointer-events-none">
+          <div className="glass px-4 py-2 rounded-xl border-t-2 border-red-500 shadow-2xl flex items-center gap-2 whitespace-nowrap">
+            <AlertTriangle size={14} className="text-red-500 animate-pulse" />
+            <div>
+              <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Inducer Fault</div>
+              <div className="text-[11px] text-slate-300 font-medium mt-1">{twin.live_vital_signs}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {hoveredMotor === 'blower' && isBlowerFocus && (
+        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 z-50 animate-in fade-in zoom-in duration-200 pointer-events-none">
+          <div className="glass px-4 py-2 rounded-xl border-t-2 border-red-500 shadow-2xl flex items-center gap-2 whitespace-nowrap">
+            <AlertTriangle size={14} className="text-red-500 animate-pulse" />
+            <div>
+              <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Blower Fault</div>
+              <div className="text-[11px] text-slate-300 font-medium mt-1">{twin.live_vital_signs}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <svg viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.02)] transition-all duration-700">
         <defs>
           <linearGradient id="chassisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -40,7 +68,11 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
         <rect x="22" y="12" width="56" height="101" rx="4" stroke="#1e293b" strokeWidth="0.5" />
         
         {/* Inducer Motor Section */}
-        <g className="inducer-section">
+        <g 
+          className={`inducer-section cursor-help transition-opacity duration-300 ${hoveredMotor === 'inducer' ? 'opacity-100' : 'opacity-90'}`}
+          onMouseEnter={() => setHoveredMotor('inducer')}
+          onMouseLeave={() => setHoveredMotor(null)}
+        >
           <circle cx="50" cy="35" r="16" stroke={inducerColor} strokeWidth="1" strokeOpacity="0.1" />
           <circle cx="50" cy="35" r="13" stroke={inducerColor} strokeWidth="1.5" className="transition-colors duration-1000" />
           
@@ -66,7 +98,11 @@ export const FurnaceWireframe: React.FC<{ twin: DigitalTwin }> = ({ twin }) => {
         </g>
 
         {/* Blower Motor Section */}
-        <g className="blower-section">
+        <g 
+          className={`blower-section cursor-help transition-opacity duration-300 ${hoveredMotor === 'blower' ? 'opacity-100' : 'opacity-90'}`}
+          onMouseEnter={() => setHoveredMotor('blower')}
+          onMouseLeave={() => setHoveredMotor(null)}
+        >
           <rect x="30" y="78" width="40" height="30" rx="6" stroke={blowerColor} strokeWidth="1.5" className="transition-colors duration-1000" />
           
           {/* Internal Blower Wheel (Pulsating) */}
