@@ -7,6 +7,8 @@ import { RealtorCertificate } from './components/RealtorCertificate';
 import { PARTNERS } from './constants';
 import { PartnerConfig } from './types';
 import { Navbar } from './components/Navbar';
+import { Ticker } from './components/Ticker';
+import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
   const [partner, setPartner] = useState<PartnerConfig>(PARTNERS['mckinnon']);
@@ -19,6 +21,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="min-h-screen bg-obsidian text-slate-100 flex flex-col">
+        <Ticker />
         <Navbar currentPartner={partner} onPartnerChange={setPartner} />
         <main className="flex-1 p-4 lg:p-8 overflow-x-hidden">
           <Routes>
@@ -27,6 +30,7 @@ const App: React.FC = () => {
             <Route path="/certificate/:id" element={<RealtorCertificate />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
