@@ -6,6 +6,7 @@ import { AccountantReveal } from './components/AccountantReveal';
 import { RealtorCertificate } from './components/RealtorCertificate';
 import { RealtorPortal } from './components/RealtorPortal';
 import { OperationsCommand } from './components/OperationsCommand';
+import { LegalView } from './components/LegalView';
 import { BrandConfig } from './types';
 import { Navbar } from './components/Navbar';
 import { Ticker } from './components/Ticker';
@@ -42,6 +43,10 @@ const App: React.FC = () => {
             <Route path="/realtors" element={<RealtorPortal />} />
             <Route path="/accountant" element={<AccountantReveal brand={brand} />} />
             <Route path="/certificate/:id" element={<RealtorCertificate brand={brand} />} />
+            <Route path="/privacy" element={<LegalView type="privacy" brand={brand} />} />
+            <Route path="/agreement" element={<LegalView type="agreement" brand={brand} />} />
+            <Route path="/laws" element={<LegalView type="laws" brand={brand} />} />
+            <Route path="/safety" element={<LegalView type="safety" brand={brand} />} />
           </Routes>
         </main>
         <Footer brand={brand} />

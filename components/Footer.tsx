@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { MapPin, ShieldCheck, Globe, Scale, BookOpen, ScrollText, Zap, ShieldAlert, Award, FileLock2, Lock, ImageIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { MapPin, ShieldCheck, Zap, ShieldAlert, Award, FileLock2, Lock } from 'lucide-react';
 import { BrandConfig } from '../types';
 
 export const Footer: React.FC<{ brand: BrandConfig }> = ({ brand }) => {
@@ -84,18 +85,26 @@ export const Footer: React.FC<{ brand: BrandConfig }> = ({ brand }) => {
             Important Pages
           </h4>
           <ul className="space-y-6">
-            <li className="flex items-center gap-3 text-sm font-bold text-white hover:text-emerald-400 transition-colors cursor-pointer group">
-              <ShieldCheck size={18} className="text-emerald-500" />
-              Privacy Rules
+            <li>
+              <Link to="/privacy" className="flex items-center gap-3 text-sm font-bold text-white hover:text-emerald-400 transition-colors cursor-pointer group">
+                <ShieldCheck size={18} className="text-emerald-500" />
+                Privacy Rules
+              </Link>
             </li>
-            <li className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8">
-              Service Agreement
+            <li>
+              <Link to="/agreement" className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8 block">
+                Service Agreement
+              </Link>
             </li>
-            <li className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8">
-              Local Toronto Laws
+            <li>
+              <Link to="/laws" className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8 block">
+                Local Toronto Laws
+              </Link>
             </li>
-            <li className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8">
-              Ontario Safety Rules
+            <li>
+              <Link to="/safety" className="text-sm font-bold text-slate-300 hover:text-white transition-colors cursor-pointer pl-8 block">
+                Ontario Safety Rules
+              </Link>
             </li>
           </ul>
         </div>
