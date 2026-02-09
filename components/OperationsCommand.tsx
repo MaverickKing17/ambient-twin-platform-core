@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Globe2, RefreshCw, Database, CloudUpload, Link2, ShieldCheck, AlertCircle, HardDrive, Wind, Zap, Info, ArrowUpRight, CheckCircle2, X, Lock, ExternalLink, ChevronRight, FileText, UserCircle, Loader2, Palette, Type as TypeIcon, Image as ImageIcon } from 'lucide-react';
+import { Globe2, RefreshCw, Database, CloudUpload, Link2, ShieldCheck, AlertCircle, HardDrive, Wind, Zap, Info, ArrowUpRight, CheckCircle2, X, Lock, ExternalLink, ChevronRight, FileText, UserCircle, Loader2, Palette, Type as TypeIcon, Image as ImageIcon, Download } from 'lucide-react';
 import { INITIAL_MOCK_DATA } from '../constants';
 import { DigitalTwin, BrandConfig } from '../types';
 
@@ -15,6 +15,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({ brand, onU
   const [activeIntegration, setActiveIntegration] = useState<{ name: string; url: string } | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
@@ -68,10 +69,33 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({ brand, onU
   };
 
   const handleDownloadForms = () => {
-    alert('Preparing your money back forms for download...');
+    setIsDownloading(true);
+    
+    // Simulate compilation delay
     setTimeout(() => {
-      alert('Download started. Please check your browser downloads.');
-    }, 1000);
+      const rebateData = [
+        { client: 'Sarah Johnson', type: 'Heat Pump', status: 'Checking', value: '7100' },
+        { client: 'David Chen', type: 'Dual Fuel', status: 'Ready', value: '4500' },
+        { client: 'Anita Sharma', type: 'High Efficiency', status: 'Sending', value: '1500' },
+        { client: 'Kevin O\'Leary', type: 'Air Seal', status: 'Checking', value: '850' },
+      ];
+
+      const csvContent = [
+        ['Customer', 'Equipment Type', 'Filing Status', 'Rebate Value (CAD)'],
+        ...rebateData.map(r => [r.client, r.type, r.status, r.value])
+      ].map(e => e.join(",")).join("\n");
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Rebate_Filing_Export_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setIsDownloading(false);
+    }, 1200);
   };
 
   const integrations = [
@@ -387,10 +411,11 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({ brand, onU
               <div className="flex gap-4">
                 <button 
                   onClick={handleDownloadForms}
-                  className="flex-1 h-14 bg-white text-black rounded-2xl flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest hover:bg-slate-100 transition-all shadow-lg"
+                  disabled={isDownloading}
+                  className="flex-1 h-14 bg-white text-black rounded-2xl flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest hover:bg-slate-100 transition-all shadow-lg disabled:opacity-70"
                 >
-                  <FileText size={18} />
-                  Download Forms
+                  {isDownloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
+                  {isDownloading ? 'GENERATING...' : 'DOWNLOAD FORMS'}
                 </button>
                 <button onClick={() => setSelectedFiling(false)} className="px-8 h-14 border border-white/20 rounded-2xl text-slate-300 font-bold uppercase text-[10px] tracking-widest hover:bg-white/10">
                   Close
